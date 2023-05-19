@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+    <div>
+        {% for address in app.user.profile.addresses %}
+            <div>
+                <h2>truc</h2>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

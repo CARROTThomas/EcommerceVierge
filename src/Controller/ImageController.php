@@ -31,7 +31,6 @@ class ImageController extends AbstractController
     #[Route('addtoprofile', name: 'app_image_profile_add')]
     public function addImage(Product $product = null, Request $request, EntityManagerInterface $manager): Response
     {
-
         $routeName = $request->attributes->get("_route");
 
         $image = new Image();
@@ -39,25 +38,20 @@ class ImageController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-
             if($product && $routeName == "app_image_product_add"){
                 $image->setProduct($product);
             }elseif($routeName == "app_image_profile_add"){
 
                 $oldImage = $this->getUser()->getProfile()->getImage();
                 if($oldImage){
-                    $manager->remove($oldImage);
 
+                    $manager->remove($oldImage);
                 }
 
                 $image->setProfile($this->getUser()->getProfile());
             }
-
             $manager->persist($image);
             $manager->flush();
-
-
         }
 
         if($routeName == "app_image_profile_add"){
@@ -65,15 +59,11 @@ class ImageController extends AbstractController
         }
 
         return $this->redirectToRoute('app_image_index', ['id' => $product->getId()]);
-
-
     }
 
     #[Route('removefromproduct/{id}', name: 'app_image_delete')]
     public function removeFromProduct(Image $image, EntityManagerInterface $manager): Response
     {
-
-
         if ($image) {
 
             $product = $image->getProduct();
@@ -81,10 +71,6 @@ class ImageController extends AbstractController
             $manager->flush();
         }
 
-
         return $this->redirectToRoute('app_image_index', ['id' => $product->getId()], Response::HTTP_SEE_OTHER);
-
-
     }
-
 }

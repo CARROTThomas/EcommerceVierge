@@ -5,33 +5,64 @@
 {% block body %}
 
     <div class="pic">
-        {% if app.user.profile.image is not null %}
+        {% if app.user.profile.image %}
 
-            <img src="{{ vich_uploader_asset(app.user.profile.image, 'imageFile')|imagine_filter('petite_vignette') }}" alt="">
+            <div class="d-flex justify-content-center">
+                <div class="m-3" style="background-color: white; border-radius: 50%">
+                    <img style="border-radius: 50%" src="{{ vich_uploader_asset(app.user.profile.image, 'imageFile')|imagine_filter('vignette') }}" alt="profile picture">
+                </div>
+            </div>
 
         {% else %}
-                <p>no profile pic yet</p>
+
+            <div class="d-flex justify-content-center">
+                <div class="p-5 m-3" style="background-color: white; border-radius: 50%">
+                    <img width="150px" height="150px" src="https://cdn.discordapp.com/attachments/907008782377300010/1108328640556572722/Basic_UI_Icon_Pack_-_Glyph_user-512.png" alt=" profile picture">
+                </div>
+            </div>
+
         {% endif %}
-        {{ form_start(formImage, {'action': path('app_image_profile_add'), 'method': 'POST'}) }}
-        {{ form_widget(formImage.imageFile)}}
-        <button type="submit" class="btn btn-success">OK</button>
-        {{ form_end(formImage) }}
+
+        <div class="d-flex justify-content-center">
+            {{ form_start(formImage, {'action': path('app_image_profile_add'), 'method': 'POST'}) }}
+            {{ form_widget(formImage.imageFile)}}
+            <button type="submit" class="btn btn-success">OK</button>
+            {{ form_end(formImage) }}
+        </div>
+        <hr>
+
     </div>
 
-    <div class="row">
-        {% if app.user.profile.firstName is not null %}
-        <p><strong>{{ app.user.profile.firstName }}</strong></p>
-        {% else %}
-            <p>no firstname yet</p>
-        {% endif %}
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            {% if app.user.profile.firstName is not null %}
+                <p><strong>{{ app.user.profile.firstName }}</strong></p>
+            {% else %}
+                <p>no firstname yet</p>
+            {% endif %}
 
-        {% if app.user.profile.lastName is not null %}
-            <p><strong>{{ app.user.profile.lastName }}</strong></p>
-        {% else %}
-            <p>no lastname yet</p>
-        {% endif %}
+            {% if app.user.profile.lastName is not null %}
+                <p><strong>{{ app.user.profile.lastName }}</strong></p>
+            {% else %}
+                <p>no lastname yet</p>
+            {% endif %}
+        </div>
 
+        <a href="{{ path('app_editprofile') }}" class="btn btn-primary">Edit this</a>
     </div>
-    <a href="{{ path('app_editprofile') }}" class="btn btn-primary">Edit this</a>
+    <hr>
+
+    <div class="d-flex flex-column">
+        <h2>Commandes effectuées :</h2>
+        <div class="border rounded m-2 p-2">
+            <h3>truc</h3>
+            <p>truc sdklfdslkfj</p>
+        </div>
+        <div class="border rounded m-2 p-2">
+            <h3>truc</h3>
+            <p>truc sdklfdslkfj</p>
+        </div>
+    </div>
+
 
 {% endblock %}

@@ -3,6 +3,11 @@
 {% block title %}Page Products{% endblock %}
 
 {% block body %}
+    <a href="" class="btn"></a>
+    <form class="d-flex justify-content-center mt-5 mb-5">
+        <input class="form-control w-50" type="search" placeholder="Search Game">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+    </form>
 
     <div class="row">
         {% for product in products %}
@@ -25,7 +30,6 @@
                         <a href="{{ path('app_cart_add', {id:product.id, quantity:1}) }}" class="btn btn-success">Ajouter au panier</a>
                     </div>
                 </a>
-
             </div>
 
         {% endfor %}

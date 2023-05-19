@@ -27,7 +27,6 @@ class RegistrationController extends AbstractController
 
             $profile = new Profile();
 
-
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -37,7 +36,6 @@ class RegistrationController extends AbstractController
 
             $user->setProfile($profile);
             $entityManager->persist($user);
-
 
             $entityManager->flush();
             // do anything else you need here, like send an email

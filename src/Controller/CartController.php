@@ -19,6 +19,7 @@ class CartController extends AbstractController
             'total'=>$cartService->getTotal()
         ]);
     }
+
     #[Route('/cart/add/{id}/{quantity}', name: 'app_cart_add')]
     #[Route('/cart/addfromcart/{id}/{quantity}', name: 'app_cart_add_from_cart')]
     public function add(Request $request,Product $product, $quantity, CartService $cartService): Response
@@ -29,10 +30,9 @@ class CartController extends AbstractController
         $redirection = 'app_home';
 
         if($routeName ==="app_cart_add_from_cart" ){
+
             $redirection ='app_cart';
-
         }
-
         return $this->redirectToRoute($redirection);
     }
 
@@ -41,9 +41,7 @@ class CartController extends AbstractController
     {
         $cartService->removeProduct($product);
 
-
         return $this->redirectToRoute('app_cart');
-
     }
 
     #[Route('/cart/removewhole/{id}', name: 'app_cart_remove_whole')]
@@ -51,9 +49,7 @@ class CartController extends AbstractController
     {
         $cartService->removeProductRow($product);
 
-
         return $this->redirectToRoute('app_cart');
-
     }
 
     #[Route('/cart/empty', name: 'app_cart_empty')]
@@ -61,11 +57,6 @@ class CartController extends AbstractController
     {
         $cartService->emptyCart();
 
-
         return $this->redirectToRoute('app_cart');
-
     }
-
-
-
 }

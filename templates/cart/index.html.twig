@@ -5,7 +5,6 @@
 {% block body %}
 
     <div class="mt-5">
-
         {% if cart %}
             <table class="table table-hover">
                 <thead>
@@ -19,29 +18,29 @@
                 </thead>
 
                 <tbody>
-                {% for item in cart %}
-                    <tr class="table-active">
+                    {% for item in cart %}
+                        <tr class="table-active">
 
-                        <td>{{ item.product.name }}</td>
-                        <td>{{ item.product.price}} €</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.product.price * item.quantity}} €</td>
-                        <td>
-                            <a href="{{ path('app_cart_remove_one', {id:item.product.id}) }}" class="btn btn-secondary"><strong>-</strong></a>
-                            <a href="{{ path('app_cart_add_from_cart', {id:item.product.id, quantity:1}) }}" class="btn btn-success"><strong>+</strong></a>
-                            <a href="{{ path('app_cart_remove_whole', {id:item.product.id}) }}" class="btn btn-danger"><strong>X</strong></a>
-                        </td>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.product.price}} €</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.product.price * item.quantity}} €</td>
+                            <td>
+                                <a href="{{ path('app_cart_remove_one', {id:item.product.id}) }}" class="btn btn-secondary"><strong>-</strong></a>
+                                <a href="{{ path('app_cart_add_from_cart', {id:item.product.id, quantity:1}) }}" class="btn btn-success"><strong>+</strong></a>
+                                <a href="{{ path('app_cart_remove_whole', {id:item.product.id}) }}" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a>
+                            </td>
 
+                        </tr>
+                    {% endfor %}
+
+                    <tr class="table-dark">
+                        <td><a href="{{ path('app_cart_empty') }}" class="btn btn-danger"><i class="bi bi-trash3-fill me-2"></i>supprimer Panier</a></td>
+                        <td>Grand Total :</td>
+                        <td>{{ usercart.count() }}</td>
+                        <td><strong> {{ total }} €</strong></td>
+                        <td><a href="{{ path('app_select_address') }}" class="btn btn-success">Etape suivante</a></td>
                     </tr>
-                {% endfor %}
-
-                <tr class="table-dark">
-                    <td><a href="{{ path('app_cart_empty') }}" class="btn btn-danger">supprimer Panier</a></td>
-                    <td></td>
-                    <td> Grand Total :</td>
-                    <td><strong> {{ total}} €</strong></td>
-                    <td><a href="" class="btn btn-success">Make Order</a></td>
-                </tr>
                 </tbody>
             </table>
         {% else %}
@@ -52,10 +51,7 @@
                     <a class="btn btn-primary" href="{{ path('app_home') }}">Faire des achats</a>
                 </div>
             </div>
-
-
         {% endif %}
-
     </div>
 
 {% endblock %}
