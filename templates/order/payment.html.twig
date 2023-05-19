@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+    <div>
+        <p>Order summary :</p>
+
+        {% for item in usercart.getCart() %}
+
+            <p>{{ item.product.name }}  *   {{ item.quantity }}  subtotal : {{ item.product.price * item.quantity }}   </p>
+        {% endfor %}
+
+        <p><strong>Total : {{ usercart.getTotal() }}</strong></p>
+
+        <p>select payment method</p>
+
+        <a href="{{ path('app_make_order',{id:address.id}) }}" class="btn btn-success">Make Order</a>
+    </div>
+{% endblock %}

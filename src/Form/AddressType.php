@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Address;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +16,7 @@ class AddressType extends AbstractType
             ->add('street')
             ->add('zipcode')
             ->add('city')
-            ->add('country', CountryType::class)
+            ->add('country')
             ->add('phoneNumber')
         ;
     }
