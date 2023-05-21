@@ -21,7 +21,7 @@ class Profile
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastName = null;
 
-    #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist'])]
     private ?Image $image = null;
 
     #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist', 'remove'])]

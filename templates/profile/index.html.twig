@@ -54,13 +54,17 @@
 
     <div class="d-flex flex-column">
         <h2>Commandes effectuées :</h2>
-        <div class="border rounded m-2 p-2">
-            <h3>truc</h3>
-            <p>truc sdklfdslkfj</p>
-        </div>
-        <div class="border rounded m-2 p-2">
-            <h3>truc</h3>
-            <p>truc sdklfdslkfj</p>
+        <div>
+            {% for order in app.user.profile.getOrders() %}
+                <div class="p-2">
+                    <div class="border p-2 d-flex justify-content-between">
+                        <h3>{{ order.total }} €</h3>
+                        <p>{{ order.createdAt | date("d/m/Y - H/M/s") }}</p>
+                    </div>
+                </div>
+
+
+            {% endfor %}
         </div>
     </div>
 

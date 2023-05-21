@@ -14,10 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class AddressController extends AbstractController
 {
     #[Route('/', name: 'app_address_index', methods: ['GET'])]
-    public function index(AddressRepository $addressRepository): Response
+    public function index(): Response
     {
         return $this->render('address/index.html.twig', [
-            'addresses' => $addressRepository->findAll(),
+
         ]);
     }
 

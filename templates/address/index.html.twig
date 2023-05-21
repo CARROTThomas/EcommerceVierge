@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for address in addresses %}
+        {% for address in app.user.profile.addresses %}
             <tr>
                 <td>{{ address.id }}</td>
                 <td>{{ address.streetNumber }}</td>
