@@ -56,14 +56,27 @@
         <h2>Commandes effectuées :</h2>
         <div>
             {% for order in app.user.profile.getOrders() %}
-                <div class="p-2">
-                    <div class="border p-2 d-flex justify-content-between">
-                        <h3>{{ order.total }} €</h3>
-                        <p>{{ order.createdAt | date("d/m/Y - H/M/s") }}</p>
+                <a class="nav-link" href="{{ path('app_my_order_show', {id:order.id}) }}">
+                    <div class="p-2">
+                        <div class="border p-2 d-flex justify-content-between">
+                            <h3>{{ order.total }} €</h3>
+                            <div>
+                                {% if order.status == 1 %}
+                                    <p class="m-0">En attente de validation</p>
+                                {% elseif order.status == 2 %}
+                                    <p class="m-0">Commande en préparation</p>
+                                {% elseif order.status == 3 %}
+                                    <p class="m-0">Commande envoyé</p>
+                                {% elseif order.status == 4 %}
+                                    <p class="m-0">Commande en cours de livraison</p>
+                                {% elseif order.status >= 5 %}
+                                    <p class="m-0">Commande livré</p>
+                                {% endif %}
+                            </div>
+                            <p>{{ order.createdAt | date("d/m/Y") }}</p>
+                        </div>
                     </div>
-                </div>
-
-
+                </a>
             {% endfor %}
         </div>
     </div>

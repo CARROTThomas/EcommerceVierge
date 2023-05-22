@@ -12,6 +12,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Category</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,6 +23,7 @@
                 <td>{{ product.name }}</td>
                 <td>{{ product.description }}</td>
                 <td>{{ product.price }}</td>
+                <td>{{ product.category.name }}</td>
                 <td>
                     <a class="btn btn-info" href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
                     <a class="btn btn-warning" href="{{ path('app_product_edit', {'id': product.id}) }}"><i class="bi bi-pencil-fill me-2"></i>edit</a>

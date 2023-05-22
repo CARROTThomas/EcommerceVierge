@@ -4,17 +4,68 @@
 
 {% block body %}
     <div>
-        <p>Order summary :</p>
+        <div class="d-flex justify-content-around">
 
-        {% for item in usercart.getCart() %}
+            <div class="col-6">
 
-            <p>{{ item.product.name }}  *   {{ item.quantity }}  subtotal : {{ item.product.price * item.quantity }}   </p>
-        {% endfor %}
+                <h2><strong>Addresse de facturation</strong></h2>
+                <div class="border border-secondary rounded p-2 m-1">
+                    <h3>{{ app.user.getProfile().lastName }}</h3>
+                    <p>{{ address.streetNumber }} {{ address.street }}, {{ address.city }}, {{ address.country }}</p>
+                </div>
 
-        <p><strong>Total : {{ usercart.getTotal() }}</strong></p>
+                <div class="mt-5">
+                    <h2><strong>Méthode de paiement</strong></h2>
+                    <form action="" class="p-4 border mt-3">
 
-        <p>select payment method</p>
+                        <h5><strong>Carte de Crédit</strong></h5>
 
-        <a href="{{ path('app_make_order',{id:address.id}) }}" class="btn btn-success">Make Order</a>
+                        <label for="carteNumber">Numéro de la carte</label>
+                        <input class="form-control" type="number" name="carteNumber" placeholder="**** **** **** ****">
+
+                        <label for="titulaireCarte">Titulaire de la carte</label>
+                        <input class="form-control" type="text" name="titulaireCarte" placeholder="J. Smith">
+
+                        <div class="d-flex justify-content-between">
+                            <div class="w-100">
+                                <label for="dateExpiration">Date d'expiration</label>
+                                <input class="form-control" type="date" name="dateExpiration" placeholder="MM / YY">
+                            </div>
+                            <div class="w-100 ms-5">
+                                <label for="CryptogrammeCarte">Cryptogramme</label>
+                                <input class="form-control" type="number" name="CryptogrammeCarte" placeholder="CVC">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <h2><strong>Résumé</strong></h2>
+
+                <div class="border border-secondary rounded p-3">
+                    {% for item in usercart.getCart() %}
+                        <div class="d-flex justify-content-between">
+                            <p> - {{ item.product.name }}</p>
+                            <p>{{ item.quantity }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+                <div class="border border-secondary rounded p-3 mt-5">
+                    <div class="container">
+                        <div class="d-flex justify-content-around">
+                            <p class="m-0 fs-3"><strong>Total : </strong></p>
+                            <p class="m-0 fs-3"><strong>{{ usercart.getTotal() }}€</strong></p>
+                        </div>
+                        <a class="btn btn-primary mt-5 w-100 mb-3" href="{{ path('app_make_order',{id:address.id}) }}">Payer</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
     </div>
 {% endblock %}

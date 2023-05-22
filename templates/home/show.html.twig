@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Products{% endblock %}
+
+{% block body %}
+
+    <div>
+        <div class="d-flex justify-content-between mt-5">
+
+            <div class="d-flex flex-column align-items-center col-6 p-5">
+                {% if product.images.0 is not null %}
+                    <img class="rounded w-100 mb-5" src="{{ vich_uploader_asset(product.images.0,'imageFile')|imagine_filter('productPicture') }}" alt="image product">
+                {% endif %}
+                <div class="w-100 d-flex flex-column align-items-start">
+                    <h3 class="mb-3">À propos du jeu</h3>
+                    <p>{{ product.description }}</p>
+                </div>
+            </div>
+
+            <div class="col-6 d-flex flex-column align-items-center p-5">
+                <div>
+                    <h2><strong>{{ product.name }}</strong></h2>
+                    <div class="d-flex align-items-center">
+                        {% if product.category.name =="nintendo" %}
+                            <i class="bi fs-3 me-3 text-light bi-nintendo-switch"></i>
+                        {% elseif product.category.name =="Xbox" %}
+                            <i class="bi fs-3 me-3 text-light bi-xbox"></i>
+                        {% elseif product.category.name =="Playstation" %}
+                            <i class="bi fs-3 me-3 text-light bi-playstation"></i>
+                        {% elseif product.category.name =="PC" %}
+                            <i class="bi fs-3 me-3 text-light bi-laptop"></i>
+                        {% endif %}
+                        <p class="m-0"><strong>{{ product.category.name }}</strong></p>
+                    </div>
+                    <div class="mt-5 mb-5">
+                        <a href="{{ path('app_cart_add', {id:product.id, quantity:1}) }}" class="btn btn-success">Ajouter au panier</a>
+                    </div>
+                    <hr class="mt-5 mb-5">
+                    <div>
+                        <h4>Note :</h4>
+                        <div class="d-flex gap-2">
+                            <i class="bi fs-4 bi-star-fill"></i>
+                            <i class="bi fs-4 bi-star-fill"></i>
+                            <i class="bi fs-4 bi-star-fill"></i>
+                            <i class="bi fs-4 bi-star-half"></i>
+                            <i class="bi fs-4 bi-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div>
+            <h2><strong>Avis</strong></h2>
+            <hr>
+            <div>
+                {% if app.user %}
+                    <div class="p-5">
+                        {{ form_start(formulaire_comment, {'action':path('app_comment_new', {id:product.id})}) }}
+
+                        {{ form_row(formulaire_comment.content) }}
+
+                        <button class="btn btn-primary" type="submit">Send</button>
+                        {{ form_end(formulaire_comment) }}
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+                {% for comment in product.getComments %}
+                    <div class="border m-1 p-2">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p>{{ comment.content }}</p>
+                                <p><strong>{{ comment.author.firstname }} {{ comment.author.lastname }}</strong></p>
+                                <p>{{ comment.createdAt|date('d/m/Y H:i:s') }}</p>
+                            </div>
+
+                            {% if app.user %}
+                                {% if app.user.profile == comment.author %}
+                                    <div class="d-flex align-items-center">
+                                        <a class="btn btn-warning m-1" href="{{ path('app_comment_edit', {id:comment.id}) }}">edit / delete</a>
+                                    </div>
+                                {% elseif "ROLE_ADMIN" in app.user.roles %}
+                                    <div class="d-flex align-items-center">
+                                        <a class="btn btn-danger m-1" href="{{ path('app_comment_delete', {id:comment.id}) }}">delete</a>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

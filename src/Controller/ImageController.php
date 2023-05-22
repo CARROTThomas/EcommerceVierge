@@ -43,6 +43,7 @@ class ImageController extends AbstractController
             }elseif($routeName == "app_image_profile_add"){
 
                 $oldImage = $this->getUser()->getProfile()->getImage();
+
                 if($oldImage){
 
                     $manager->remove($oldImage);

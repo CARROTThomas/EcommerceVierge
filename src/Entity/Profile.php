@@ -24,7 +24,7 @@ class Profile
     #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist'])]
     private ?Image $image = null;
 
-    #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $ofUser = null;
 
@@ -34,10 +34,14 @@ class Profile
     #[ORM\OneToMany(mappedBy: 'profile', targetEntity: Order::class, orphanRemoval: true)]
     private Collection $orders;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,6 +151,36 @@ class Profile
             // set the owning side to null (unless already changed)
             if ($order->getProfile() === $this) {
                 $order->setProfile(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
             }
         }
 

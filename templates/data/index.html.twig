@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DataController!{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>KPI</h1>
+        <div class="p-5">
+            <table class="table table-hover">
+                <thead>
+                <tr class="table-dark">
+                    <th scope="col">Type</th>
+                    <th scope="col">NOMBRE DE COMMANDE</th>
+                    <th scope="col">BÉNÉFICE</th>
+                    <th scope="col">NOMBRE USER</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr class="table">
+                    <th scope="row">DATA 1</th>
+                    <td>50</td>
+                    <td>
+                        {% for order in orders %}
+                            {{ order.getTotal() }}
+                        {% endfor %}
+                    €</td>
+                    <td>Column content</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

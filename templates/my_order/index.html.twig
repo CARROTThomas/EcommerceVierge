@@ -24,6 +24,7 @@
                 <td>{{ order.total }}</td>
                 <td>
                     <a href="{{ path('app_my_order_show', {'id': order.id}) }}">show</a>
+                    <a href="{{ path('app_my_order_edit', {'id': order.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

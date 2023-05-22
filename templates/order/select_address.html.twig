@@ -4,21 +4,26 @@
 
 {% block body %}
     <div>
-        {% for address in app.user.profile.addresses %}
-            <div class="p-2">
-                <div class="border border-dark p-3 m-1">
-                    {% if app.user.profile.firstName is not null and app.user.profile.lastName is not null %}
-                        <p>{{ app.user.profile.firstName }} {{ app.user.profile.lastName }}</p>
-                    {% else %}
-                        <p>you have to fill up first name & last name @ your profile</p>
-                    {% endif %}
-                    <p>{{ address.streetNumber }} {{ address.street }}</p>
-                    <p>{{ address.zipcode }} {{ address.city }}</p>
-                    <p>{{ address.country }}</p>
+        {% if app.user.profile.addresses is not null %}
+            {% for address in app.user.profile.addresses %}
+                <div class="p-2">
+                    <div class="border border-dark p-3 m-1">
+                        {% if app.user.profile.firstName is not null and app.user.profile.lastName is not null %}
+                            <p>{{ app.user.profile.firstName }} {{ app.user.profile.lastName }}</p>
+                        {% else %}
+                            <p>you have to fill up first name & last name @ your profile</p>
+                        {% endif %}
+                        <p>{{ address.streetNumber }} {{ address.street }}</p>
+                        <p>{{ address.zipcode }} {{ address.city }}</p>
+                        <p>{{ address.country }}</p>
 
-                    <a class="btn btn-success" href="{{ path('app_payment',{id:address.id}) }}">Use this address</a>
+                        <a class="btn btn-success" href="{{ path('app_payment',{id:address.id}) }}">Use this address</a>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+
+            <a class="btn btn-primary" href="{{ path('app_address_new') }}">Creer une adresse</a>
+        {% endif %}
     </div>
 {% endblock %}

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Image;
-use App\Entity\Profile;
 use App\Form\ImageType;
 use App\Form\ProfileType;
 use Doctrine\ORM\EntityManagerInterface;
