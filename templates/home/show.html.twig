@@ -30,21 +30,57 @@
                         {% elseif product.category.name =="PC" %}
                             <i class="bi fs-3 me-3 text-light bi-laptop"></i>
                         {% endif %}
-                        <p class="m-0"><strong>{{ product.category.name }}</strong></p>
+                        <p class="m-0"><strong>{{ product.category.name }}</strong></p><i class="bi fs-4 bi-star-half"></i>
                     </div>
                     <div class="mt-5 mb-5">
                         <a href="{{ path('app_cart_add', {id:product.id, quantity:1}) }}" class="btn btn-success">Ajouter au panier</a>
                     </div>
-                    <hr class="mt-5 mb-5">
-                    <div>
-                        <h4>Note :</h4>
-                        <div class="d-flex gap-2">
-                            <i class="bi fs-4 bi-star-fill"></i>
-                            <i class="bi fs-4 bi-star-fill"></i>
-                            <i class="bi fs-4 bi-star-fill"></i>
-                            <i class="bi fs-4 bi-star-half"></i>
-                            <i class="bi fs-4 bi-star"></i>
-                        </div>
+                    <hr class="mt-5 mb-3">
+                    {% set average = product.getAverageMark() %}
+                    <div class="d-flex flex-column">
+                        <h4 class="m-0">Note : {{ average }}</h4>
+                        <p class="m-0">
+                        <strong>
+                            {% if product.getAverageMark() is not null %}
+                                {% for j in 1..5 %}
+                                    {% if average < j %}
+                                        <i class="bi fs-4 bi-star"></i>
+                                    {% else %}
+                                       <i class="bi fs-4 bi-star-fill"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                Pas de note
+                                {% for i in 1..5 %}
+
+                                    {% if average < i %}
+                                        <a href="{{ path('app_rate',{id:product.id, mark:i}) }}"><i class="bi fs-4 bi-star"></i></a>
+                                    {% else %}
+                                        <a href="{{ path('app_rate',{id:product.id, mark:i}) }}"><i class="bi fs-4 bi-star-fill"></i></a>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            {% endif %}
+                        </strong>
+                        </p>
+                        <hr>
+                        {% if app.user %}
+                            {% if product.getNoteByUser(app.user.profile).mark is not null %}
+                                <h4 class="m-0">Your note :</h4>
+                                <div class="d-flex">
+                                    {% for i in 1..5 %}
+
+                                        {% if product.getNoteByUser(app.user.profile).mark < i %}
+                                            <a href="{{ path('app_rate',{id:product.id, mark:i}) }}"><i class="bi fs-4 bi-star"></i></a>
+                                        {% else %}
+                                            <a href="{{ path('app_rate',{id:product.id, mark:i}) }}"><i class="bi fs-4 bi-star-fill"></i></a>
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -38,11 +38,15 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Note::class)]
+    private Collection $notes;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->orderItems = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,5 +190,94 @@ class Product
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getProduct() === $this) {
+                $note->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAverageMark(){
+        $productRates = $this->getNotes();
+        $total = 0;
+        $numberOfRates = 0;
+        foreach ($productRates as $rate){
+            $numberOfRates+=1;
+            $total+=$rate->getMark();
+        }
+
+        $response = null;
+        if($numberOfRates !== 0) {
+            $response = $total/$numberOfRates;
+        }
+
+        return $response;
+    }
+
+
+
+    public function isRatedBy(Profile $profile):bool
+    {
+        foreach ($this->notes as $note){
+            if($note->getAuthor() === $profile){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getAverageStars(){
+        $productNotes = $this->getNotes();
+        $total = 0;
+        $numberOfNotes = 0;
+
+        foreach ($productNotes as $mark){
+            $numberOfNotes+=1;
+            $total+=$mark->getMark();
+        }
+
+        $response = null;
+
+        if ($numberOfNotes !== 0) {
+            $response = $total/$numberOfNotes;
+        }
+
+        return $response;
+    }
+
+    public function getNoteByUser(Profile $profile){
+        $notes = $this->getNotes();
+        $userNote = null;
+        foreach ($notes as $note){
+            if($note->getAuthor() === $profile){
+                $userNote = $note;
+            }
+        }
+        return $userNote;
     }
 }

@@ -36,6 +36,7 @@
         <h2 class="text-end"><strong>TOTAL COMMANDE : {{ order.total }}€</strong></h2>
         <div class="d-flex flex-column align-items-end">
             <a class="btn btn-secondary" href="{{ path('app_home') }}">retour sur la page d'accueil</a>
+            <a class="btn btn-secondary" href="{{ path('send_mail', {id:order.id}) }}">facture .pdf</a>
         </div>
 
 

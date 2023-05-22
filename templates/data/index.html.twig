@@ -12,20 +12,18 @@
                     <th scope="col">Type</th>
                     <th scope="col">NOMBRE DE COMMANDE</th>
                     <th scope="col">BÉNÉFICE</th>
-                    <th scope="col">NOMBRE USER</th>
+                    <th scope="col">NOMBRE DE CATEGORY</th>
+                    <th scope="col">NOMBRE DE PRODUIT</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr class="table">
                     <th scope="row">DATA 1</th>
-                    <td>50</td>
-                    <td>
-                        {% for order in orders %}
-                            {{ order.getTotal() }}
-                        {% endfor %}
-                    €</td>
-                    <td>Column content</td>
+                    <td>{{ orderCount }}</td>
+                    <td>{{ total }}€</td>
+                    <td>{{ categoryCount }}</td>
+                    <td>{{ categoryProduct }}</td>
                 </tr>
                 </tbody>
             </table>

@@ -3,8 +3,13 @@
 {% block title %}Page Products{% endblock %}
 
 {% block body %}
-    <form class="d-flex justify-content-center mt-5 mb-5">
-        <input class="form-control w-50" type="search" placeholder="Search Game">
+
+    <form
+            action="{{ path('app_home_search') }}"
+            method="get"
+            class="d-flex justify-content-center mt-5 mb-5"
+    >
+        <input class="form-control w-50" name="search" type="search" placeholder="Search Game">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
     </form>
 

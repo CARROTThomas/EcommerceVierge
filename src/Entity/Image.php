@@ -131,4 +131,14 @@ class Image implements \Serializable
     {
         // TODO: Implement unserialize() method.
     }
+
+    public function __serialize(): array
+    {
+        return ['id'=>$this->id];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        // TODO: Implement __unserialize() method.
+    }
 }
