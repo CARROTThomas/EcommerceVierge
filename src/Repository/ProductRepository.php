@@ -45,16 +45,15 @@ class ProductRepository extends ServiceEntityRepository
     public function findByExampleField($value): array
     {
         return $this->createQueryBuilder('product')
-            ->andWhere('product.name = :name')
-            ->setParameter('name', $value)
-            ->andWhere('product.description = :description')
-            ->setParameter('description', $value)
-            ->orderBy('product.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('product.name LIKE :name')
+            ->setParameter('name', '%'.$value.'%')
+            ->orderBy('product.name', 'ASC')
+            ->setMaxResults(6)
             ->getQuery()
             ->getResult()
         ;
     }
+    // '%'.$value.'%'
 
 //    public function findOneBySomeField($value): ?Product
 //    {

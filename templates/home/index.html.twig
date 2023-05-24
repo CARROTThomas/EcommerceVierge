@@ -12,6 +12,26 @@
         <input class="form-control w-50" name="search" type="search" placeholder="Search Game">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
     </form>
+    
+    
+    <div class="d-flex align-items-center justify-content-end gap-5">
+        {% for category in categories %}
+            <a class="btn" href="{{ path('app_home_search_category', {id:category.id}) }}">
+                {% if category.name =="nintendo" %}
+                    <i class="bi fs-3 text-light bi-nintendo-switch"></i>
+                {% elseif category.name =="Xbox" %}
+                    <i class="bi fs-3 text-light bi-xbox"></i>
+                {% elseif category.name =="Playstation" %}
+                    <i class="bi fs-3 text-light bi-playstation"></i>
+                {% elseif category.name =="PC" %}
+                    <i class="bi fs-3 text-light bi-laptop"></i>
+                {% endif %}
+            </a>
+        {% endfor %}
+        <a class="btn border rounded" href="{{ path('app_home') }}">ALL</a>
+    </div>
+
+    <hr>
 
     <div class="row">
         {% for product in products %}

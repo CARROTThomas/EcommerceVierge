@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Order;
 use App\Entity\Product;
 use App\Form\CommentType;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ProductRepository;
 use Knp\Snappy\Pdf;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,8 @@ class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
     #[Route('/search', name: 'app_home_search')]
-    public function index(ProductRepository $productRepository, Request $request): Response
+    #[Route('/search/category/{id}', name: 'app_home_search_category')]
+    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request, Category $category=null): Response
     {
         $routeName = $request->attributes->get("_route");
 
@@ -37,13 +39,30 @@ class HomeController extends AbstractController
 
             return $this->render('home/index.html.twig', [
                 'products'=>$products,
+                'categories'=>$categoryRepository->findAll(),
+            ]);
+        }
+
+        if($routeName ==="app_home_search_category"){
+
+
+            if (!$category) {
+                return $this->redirectToRoute('app_home');
+            }
+
+            return $this->render('home/index.html.twig', [
+                'products'=>$category->getProducts(),
+                'categories'=>$categoryRepository->findAll(),
             ]);
         }
 
         return $this->render('home/index.html.twig', [
-            'products'=>$productRepository->findAll()
+            'products'=>$productRepository->findAll(),
+            'categories'=>$categoryRepository->findAll(),
         ]);
     }
+
+
 
 
     #[Route('/show/{id}', name: 'app_show_product')]
@@ -70,11 +89,13 @@ class HomeController extends AbstractController
         // pour créer le fichier et le stocker dans public
         // $pdfmaker->generateFromHtml($html,"facture.pdf");
 
+        $mailUser = $this->getUser()->getEmail();
+
         $email = (new Email())
             ->from('contact@thomascarrot.com')
 
 
-            ->to('maxime98ps@gmail.com')
+            ->to($mailUser)
 
             ->subject('Time for Symfony Mailer!')
             ->text('Sending emails is fun again!')
